@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HUHUSTORE - Blox Fruit SHOP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800;900&family=Rajdhani:wght@400;500;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#030712">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--primary:#ff6b00;--primary-glow:#ff8c00;--secondary:#00d4ff;--accent:#ff00e5;--success:#00ff88;--danger:#ff2d55;--gold:#ffd700;--dark:#030712}
+body{font-family:'Inter','Rajdhani',sans-serif;background:var(--dark);color:#e2e8f0;min-height:100vh;overflow-x:hidden;line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}
+.bg-wrap{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;contain:strict;transform:translateZ(0)}
+.bg-gradient{position:absolute;inset:0;background:radial-gradient(ellipse at 20% 20%,rgba(255,107,0,0.08) 0%,transparent 50%),radial-gradient(ellipse at 80% 80%,rgba(0,212,255,0.06) 0%,transparent 50%),linear-gradient(180deg,#030712 0%,#0a0f1e 50%,#030712 100%)}
+.stars{position:absolute;top:-25%;left:-25%;width:150%;height:150%;background-image:radial-gradient(2px 2px at 20px 30px,rgba(255,255,255,0.3),transparent),radial-gradient(2px 2px at 40px 70px,rgba(255,215,0,0.2),transparent),radial-gradient(1px 1px at 90px 40px,rgba(255,255,255,0.25),transparent),radial-gradient(2px 2px at 160px 120px,rgba(0,212,255,0.15),transparent),radial-gradient(1px 1px at 230px 80px,rgba(255,255,255,0.2),transparent);background-size:250px 250px;animation:starsDrift 140s linear infinite;will-change:transform}
+@keyframes starsDrift{from{transform:translate3d(0,0,0)}to{transform:translate3d(-250px,-250px,0)}}
+.nebula{position:absolute;border-radius:50%;opacity:0.55;will-change:transform}
+.n1{width:520px;height:520px;background:radial-gradient(circle,rgba(255,107,0,0.22) 0%,rgba(255,107,0,0.08) 45%,transparent 72%);top:-150px;left:-100px;animation:neb1 26s ease-in-out infinite alternate}
+.n2{width:440px;height:440px;background:radial-gradient(circle,rgba(0,212,255,0.15) 0%,rgba(0,212,255,0.05) 45%,transparent 72%);bottom:-100px;right:-100px;animation:neb2 30s ease-in-out infinite alternate}
+.n3{width:360px;height:360px;background:radial-gradient(circle,rgba(255,0,229,0.11) 0%,rgba(255,0,229,0.04) 45%,transparent 72%);top:40%;left:60%;animation:neb3 22s ease-in-out infinite alternate}
+@keyframes neb1{0%{transform:translate3d(0,0,0) scale(1)}100%{transform:translate3d(80px,60px,0) scale(1.1)}}
+@keyframes neb2{0%{transform:translate3d(0,0,0) scale(1)}100%{transform:translate3d(-60px,-80px,0) scale(1.15)}}
+@keyframes neb3{0%{transform:translate3d(0,0,0) scale(1)}100%{transform:translate3d(-40px,40px,0) scale(0.9)}}
+.grid-overlay{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px);background-size:50px 50px;-webkit-mask-image:radial-gradient(ellipse at center,black 30%,transparent 70%);mask-image:radial-gradient(ellipse at center,black 30%,transparent 70%)}
+@media (prefers-reduced-motion:reduce){.stars,.nebula{animation:none}}
+@media (max-width:480px){.nebula{opacity:0.4}.n1{width:360px;height:360px}.n2{width:300px;height:300px}.n3{width:260px;height:260px}}
+
+.navbar{position:sticky;top:0;z-index:200;background:rgba(3,7,18,0.85);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,107,0,0.2);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 4px 30px rgba(0,0,0,0.5)}
+.nav-logo{display:flex;align-items:center;gap:12px;cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent;position:relative}
+.nav-logo::before{content:'';position:absolute;inset:-4px -8px;border-radius:16px;background:linear-gradient(135deg,rgba(255,107,0,0.1),transparent);opacity:0;transition:opacity 0.3s}
+.nav-logo:hover::before{opacity:1}
+.nav-logo img{width:42px;height:42px;border-radius:12px;border:2px solid rgba(255,107,0,0.6);box-shadow:0 0 20px rgba(255,107,0,0.3);transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1);object-fit:cover}
+.nav-logo:hover img{transform:scale(1.1) rotate(-5deg);box-shadow:0 0 30px rgba(255,107,0,0.5);border-color:var(--primary)}
+.nav-logo span{font-family:'Orbitron',sans-serif;font-weight:800;font-size:1.1rem;background:linear-gradient(135deg,var(--primary),var(--gold),var(--primary-glow));background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:2px;text-transform:uppercase;animation:gradientShift 4s ease infinite}
+@keyframes gradientShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.nav-right{display:flex;align-items:center;gap:12px}
+.nav-testimoni{font-family:'Rajdhani',sans-serif;font-size:0.75rem;font-weight:700;color:var(--gold);white-space:nowrap;display:none;letter-spacing:1px;text-transform:uppercase}
+@media(min-width:360px){.nav-testimoni{display:block}}
+.nav-wa{cursor:pointer;user-select:none;display:flex;align-items:center;gap:8px;color:white;text-decoration:none;background:linear-gradient(135deg,rgba(0,255,136,0.15),rgba(0,212,255,0.1));padding:10px 18px;border-radius:50px;font-weight:700;font-size:0.82rem;transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);border:1px solid rgba(0,255,136,0.3);font-family:'Rajdhani',sans-serif;letter-spacing:0.5px;position:relative;overflow:hidden;-webkit-tap-highlight-color:transparent}
+.nav-wa::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,255,136,0.3),rgba(0,212,255,0.2));opacity:0;transition:opacity 0.3s}
+.nav-wa:hover{transform:translateY(-2px) scale(1.05);border-color:rgba(0,255,136,0.6);box-shadow:0 8px 30px rgba(0,255,136,0.2),0 0 60px rgba(0,212,255,0.1)}
+.nav-wa:hover::before{opacity:1}
+.nav-wa span{position:relative;z-index:1}
+.nav-wa:active{transform:scale(0.97)}
+
+.chat-dropdown{position:relative}
+.dropdown-menu{position:absolute;top:calc(100% + 12px);right:0;background:rgba(3,7,18,0.98);border:1px solid rgba(255,107,0,0.3);border-radius:20px;padding:10px;min-width:260px;box-shadow:0 20px 50px rgba(0,0,0,0.8),0 0 30px rgba(255,107,0,0.1);opacity:0;visibility:hidden;transform:translateY(-10px) scale(0.95);transition:all 0.35s cubic-bezier(0.34,1.56,0.64,1);z-index:250;backdrop-filter:blur(10px)}
+.dropdown-menu.active{opacity:1;visibility:visible;transform:translateY(0) scale(1)}
+.dropdown-item{display:flex;align-items:center;gap:12px;padding:12px 16px;color:#e2e8f0;text-decoration:none;font-weight:600;font-size:0.85rem;border-radius:12px;transition:all 0.25s;margin-bottom:4px;border:1px solid transparent;font-family:'Inter',sans-serif}
+.dropdown-item:last-child{margin-bottom:0}
+.dropdown-item:hover{background:rgba(255,107,0,0.1);border-color:rgba(255,107,0,0.4);transform:translateX(-4px);box-shadow:0 4px 20px rgba(255,107,0,0.1)}
+.dropdown-icon{font-size:1.1rem;width:34px;height:34px;display:flex;align-items:center;justify-content:center;background:rgba(255,107,0,0.12);border-radius:10px;flex-shrink:0;transition:all 0.3s}
+.dropdown-item:hover .dropdown-icon{background:rgba(255,107,0,0.25);transform:scale(1.1)}
+.dropdown-icon img{width:20px;height:20px;object-fit:cover;border-radius:5px}
+
+.hero{position:relative;z-index:10;text-align:center;padding:40px 20px 20px;overflow:hidden}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,107,0,0.1);border:1px solid rgba(255,107,0,0.3);border-radius:50px;padding:6px 18px;font-size:0.75rem;font-weight:700;color:var(--primary);margin-bottom:20px;font-family:'Rajdhani',sans-serif;letter-spacing:2px;text-transform:uppercase;backdrop-filter:blur(6px)}
+.hero-badge::before{content:'';width:8px;height:8px;background:var(--success);border-radius:50%;box-shadow:0 0 10px var(--success);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(1.2)}}
+.hero h1{font-family:'Orbitron',sans-serif;font-size:2.8rem;font-weight:900;background:linear-gradient(135deg,var(--primary) 0%,var(--gold) 25%,var(--primary-glow) 50%,var(--secondary) 75%,var(--primary) 100%);background-size:300% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:4px;text-transform:uppercase;animation:titleShine 4s ease-in-out infinite;text-shadow:0 0 80px rgba(255,107,0,0.3);margin-bottom:8px}
+@keyframes titleShine{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.hero-sub{font-family:'Rajdhani',sans-serif;font-size:0.95rem;color:rgba(226,232,240,0.5);margin:8px 0 16px;letter-spacing:3px;text-transform:uppercase;font-weight:500}
+.hero-pay{display:inline-flex;align-items:center;gap:10px;background:rgba(255,215,0,0.05);border:1px solid rgba(255,215,0,0.2);border-radius:50px;padding:8px 20px;font-size:0.78rem;font-weight:700;color:var(--gold);margin-bottom:24px;font-family:'Rajdhani',sans-serif;letter-spacing:1.5px;backdrop-filter:blur(6px)}
+.hero-pay::before{content:'💳'}
+
+.tabs{position:relative;z-index:10;display:flex;gap:14px;padding:0 20px 24px;justify-content:center;flex-wrap:wrap}
+.tab-btn{padding:12px 32px;border-radius:50px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.03);color:rgba(226,232,240,0.5);font-weight:700;font-size:0.9rem;cursor:pointer;transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1);font-family:'Orbitron',sans-serif;letter-spacing:1px;text-transform:uppercase;-webkit-tap-highlight-color:transparent;position:relative;overflow:hidden}
+.tab-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,107,0,0.2),rgba(0,212,255,0.1));opacity:0;transition:opacity 0.3s}
+.tab-btn.active{background:linear-gradient(135deg,rgba(255,107,0,0.2),rgba(255,140,0,0.1));border-color:var(--primary);color:var(--primary);box-shadow:0 0 30px rgba(255,107,0,0.2),inset 0 0 20px rgba(255,107,0,0.05)}
+.tab-btn.active::before{opacity:1}
+.tab-btn:hover:not(.active){border-color:rgba(255,255,255,0.25);color:rgba(226,232,240,0.8);transform:translateY(-3px);box-shadow:0 10px 30px rgba(0,0,0,0.3)}
+.tab-btn span{position:relative;z-index:1}
+
+.content-wrap{position:relative;z-index:10;padding:0 16px 100px;max-width:1000px;margin:0 auto}
+.tab-panel{display:none}.tab-panel.active{display:block;animation:panelIn 0.5s cubic-bezier(0.34,1.56,0.64,1)}
+@keyframes panelIn{from{opacity:0;transform:translateY(20px) scale(0.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+.section-title{display:flex;align-items:center;gap:12px;font-family:'Orbitron',sans-serif;font-size:1.1rem;font-weight:700;color:white;margin:24px 0 16px;letter-spacing:2px;text-transform:uppercase}
+.section-title::before{content:'';width:4px;height:24px;background:linear-gradient(180deg,var(--primary),var(--secondary));border-radius:2px}
+.section-title::after{content:'';flex:1;height:1px;background:linear-gradient(to right,rgba(255,107,0,0.5),transparent)}
+.notice-box{background:rgba(255,107,0,0.05);border:1px solid rgba(255,107,0,0.2);border-radius:16px;padding:14px 18px;display:flex;align-items:flex-start;gap:14px;margin-bottom:20px;backdrop-filter:blur(6px);position:relative;overflow:hidden}
+.notice-box::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--primary),var(--gold))}
+.notice-box p{font-size:0.82rem;color:#fbbf24;font-weight:600;line-height:1.6;font-family:'Inter',sans-serif}
+
+.fruit-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;margin-bottom:24px}
+.fruit-card{background:linear-gradient(145deg,rgba(255,255,255,0.05),rgba(255,255,255,0.02));border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:18px 12px;text-align:center;cursor:pointer;transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1);position:relative;overflow:hidden;-webkit-tap-highlight-color:transparent;backdrop-filter:blur(6px)}
+.fruit-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,107,0,0.1),transparent);opacity:0;transition:opacity 0.4s}
+.fruit-card::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.05),transparent);transition:left 0.6s}
+.fruit-card:not(.sold-card):hover{border-color:rgba(255,107,0,0.5);transform:translateY(-8px) scale(1.03);box-shadow:0 20px 40px rgba(255,107,0,0.15),0 0 60px rgba(255,107,0,0.05)}
+.fruit-card:not(.sold-card):hover::before{opacity:1}
+.fruit-card:not(.sold-card):hover::after{left:100%}
+.fruit-card:not(.sold-card):active{transform:scale(0.97)}
+.fruit-card.sold-card{opacity:0.4;cursor:not-allowed;filter:grayscale(0.8)}
+.fruit-card.float-anim{animation:cardFloat var(--cf,4s) ease-in-out infinite alternate}
+.fruit-card.sold-card.float-anim{animation:none}
+@keyframes cardFloat{0%{transform:translateY(0)}100%{transform:translateY(-6px)}}
+.fruit-img-wrap{width:80px;height:80px;margin:0 auto 12px;border-radius:16px;background:rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;overflow:hidden;border:2px solid rgba(255,255,255,0.08);transition:all 0.4s;position:relative}
+.fruit-img-wrap::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,107,0,0.2),transparent);opacity:0;transition:opacity 0.3s;border-radius:16px}
+.fruit-card:not(.sold-card):hover .fruit-img-wrap{border-color:rgba(255,107,0,0.5);box-shadow:0 0 30px rgba(255,107,0,0.3);transform:scale(1.05)}
+.fruit-card:not(.sold-card):hover .fruit-img-wrap::after{opacity:1}
+.fruit-img-wrap img{width:85%;height:85%;object-fit:cover;mix-blend-mode:screen;transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1);filter:drop-shadow(0 4px 8px rgba(0,0,0,0.5))}
+.fruit-card:not(.sold-card):hover .fruit-img-wrap img{transform:scale(1.15) rotate(5deg);filter:drop-shadow(0 8px 16px rgba(255,107,0,0.3))}
+.fruit-name{font-family:'Orbitron',sans-serif;font-size:0.78rem;font-weight:700;color:rgba(226,232,240,0.9);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px}
+.fruit-price{font-family:'Orbitron',sans-serif;font-size:1.15rem;font-weight:800;background:linear-gradient(135deg,var(--success),#00ffaa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
+.stock-tag{display:inline-block;padding:4px 12px;border-radius:20px;font-size:0.68rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;font-family:'Rajdhani',sans-serif}
+.stock-tag.ready{background:rgba(0,255,136,0.12);color:var(--success);border:1px solid rgba(0,255,136,0.35);box-shadow:0 0 10px rgba(0,255,136,0.1)}
+.stock-tag.sold{background:rgba(255,45,85,0.12);color:var(--danger);border:1px solid rgba(255,45,85,0.35)}
+
+.joki-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;margin-bottom:24px}
+.joki-card{background:linear-gradient(145deg,rgba(255,255,255,0.05),rgba(255,255,255,0.02));border:1px solid rgba(255,255,255,0.08);border-radius:20px;overflow:hidden;transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1);backdrop-filter:blur(6px);position:relative}
+.joki-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,107,0,0.08),transparent);opacity:0;transition:opacity 0.4s}
+.joki-card:hover{border-color:rgba(255,107,0,0.4);box-shadow:0 20px 40px rgba(255,107,0,0.12),0 0 60px rgba(255,107,0,0.03);transform:translateY(-6px)}
+.joki-card:hover::before{opacity:1}
+.joki-card-header{background:linear-gradient(135deg,rgba(255,107,0,0.15),rgba(0,212,255,0.05));padding:16px 20px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(255,107,0,0.15);position:relative;overflow:hidden}
+.joki-card-header::after{content:'';position:absolute;right:0;top:0;bottom:0;width:60px;background:linear-gradient(90deg,transparent,rgba(255,107,0,0.1));pointer-events:none}
+.joki-card-header h3{font-family:'Orbitron',sans-serif;font-size:1rem;font-weight:700;background:linear-gradient(135deg,var(--primary),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:1px}
+.joki-card-body{padding:16px 20px;position:relative;z-index:1}
+.joki-item{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05);transition:all 0.2s}
+.joki-item:hover{background:rgba(255,255,255,0.02);margin:0 -20px;padding:8px 20px;border-radius:8px}
+.joki-item:last-of-type{border-bottom:none}
+.joki-item .name{font-size:0.84rem;color:rgba(226,232,240,0.75);font-weight:600;font-family:'Inter',sans-serif}
+.joki-item .price{font-family:'Orbitron',sans-serif;font-size:0.95rem;font-weight:800;background:linear-gradient(135deg,var(--success),#00ffaa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;white-space:nowrap;margin-left:12px;flex-shrink:0}
+.joki-note{background:rgba(255,107,0,0.08);border-left:3px solid var(--primary);padding:6px 12px;margin:8px 0;border-radius:0 8px 8px 0;font-size:0.75rem;color:#fbbf24;font-weight:700;font-family:'Inter',sans-serif}
+.order-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:14px;margin-top:14px;background:linear-gradient(135deg,rgba(0,255,136,0.15),rgba(0,212,255,0.1));border:1px solid rgba(0,255,136,0.3);border-radius:50px;color:#e2e8f0;font-weight:700;font-size:0.88rem;cursor:pointer;transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);font-family:'Rajdhani',sans-serif;letter-spacing:1px;text-transform:uppercase;backdrop-filter:blur(6px);position:relative;overflow:hidden;-webkit-tap-highlight-color:transparent}
+.order-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,255,136,0.3),rgba(0,212,255,0.2));opacity:0;transition:opacity 0.3s}
+.order-btn:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(0,255,136,0.2),0 0 50px rgba(0,212,255,0.1);border-color:rgba(0,255,136,0.6);color:white}
+.order-btn:hover::before{opacity:1}
+.order-btn:active{transform:scale(0.97)}
+.order-btn span{position:relative;z-index:1}
+
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:999;justify-content:center;align-items:center;padding:20px;backdrop-filter:blur(6px)}
+.modal-overlay.active{display:flex}
+.modal{background:linear-gradient(145deg,#0a0f1e,#050a14);border:1px solid rgba(255,107,0,0.4);border-radius:24px;width:100%;max-width:380px;overflow:hidden;box-shadow:0 30px 80px rgba(255,107,0,0.2),0 0 100px rgba(255,107,0,0.05);animation:modalIn 0.4s cubic-bezier(0.34,1.56,0.64,1);position:relative}
+.modal::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(255,107,0,0.1),transparent 70%);pointer-events:none}
+@keyframes modalIn{from{opacity:0;transform:scale(0.85) translateY(30px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.modal-header{background:linear-gradient(135deg,rgba(255,107,0,0.15),rgba(0,212,255,0.05));padding:18px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,107,0,0.2);position:relative;z-index:1}
+.modal-header h3{font-family:'Orbitron',sans-serif;font-size:1.1rem;font-weight:800;background:linear-gradient(135deg,var(--primary),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:1px}
+.modal-close{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:white;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.3s;-webkit-tap-highlight-color:transparent}
+.modal-close:hover{background:rgba(255,45,85,0.3);border-color:rgba(255,45,85,0.5);transform:rotate(90deg) scale(1.1);box-shadow:0 0 20px rgba(255,45,85,0.3)}
+.modal-body{padding:28px;text-align:center;position:relative;z-index:1}
+.modal-img{width:120px;height:120px;border-radius:20px;background:rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;border:2px solid rgba(255,107,0,0.4);overflow:hidden;animation:imgGlow 3s ease-in-out infinite;position:relative}
+.modal-img::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,107,0,0.2),transparent);pointer-events:none}
+@keyframes imgGlow{0%,100%{box-shadow:0 0 20px rgba(255,107,0,0.2),0 0 40px rgba(255,107,0,0.05)}50%{box-shadow:0 0 40px rgba(255,215,0,0.4),0 0 80px rgba(255,107,0,0.1)}}
+.modal-img img{width:90%;height:90%;object-fit:cover;mix-blend-mode:screen;filter:drop-shadow(0 4px 12px rgba(0,0,0,0.5))}
+.modal-price{font-family:'Orbitron',sans-serif;font-size:2.2rem;font-weight:900;background:linear-gradient(135deg,var(--success),#00ffaa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
+.modal-stock{margin-bottom:20px}
+.modal-wa-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:16px;background:linear-gradient(135deg,rgba(0,255,136,0.2),rgba(0,212,255,0.15));border:1px solid rgba(0,255,136,0.4);border-radius:50px;color:white;font-weight:800;font-size:1rem;cursor:pointer;font-family:'Rajdhani',sans-serif;letter-spacing:1px;text-transform:uppercase;backdrop-filter:blur(6px);transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);position:relative;overflow:hidden;-webkit-tap-highlight-color:transparent}
+.modal-wa-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,255,136,0.4),rgba(0,212,255,0.3));opacity:0;transition:opacity 0.3s}
+.modal-wa-btn:hover{transform:scale(1.04);box-shadow:0 10px 40px rgba(0,255,136,0.3),0 0 60px rgba(0,212,255,0.1);border-color:rgba(0,255,136,0.7)}
+.modal-wa-btn:hover::before{opacity:1}
+.modal-wa-btn span{position:relative;z-index:1}
+
+.ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,0.2);transform:scale(0);animation:rippleAnim 0.6s linear;pointer-events:none}
+@keyframes rippleAnim{to{transform:scale(4);opacity:0}}
+
+.admin-login-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:1999;justify-content:center;align-items:center;padding:20px;backdrop-filter:blur(10px)}
+.admin-login-overlay.active{display:flex}
+.admin-login-box{background:linear-gradient(145deg,#0a0f1e,#050a14);border:2px solid rgba(255,107,0,0.5);border-radius:24px;width:100%;max-width:340px;overflow:hidden;box-shadow:0 0 80px rgba(255,107,0,0.2),0 30px 60px rgba(0,0,0,0.5);animation:modalIn 0.4s cubic-bezier(0.34,1.56,0.64,1);position:relative}
+.admin-login-box::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(255,107,0,0.1),transparent 70%);pointer-events:none}
+.admin-login-header{background:linear-gradient(135deg,rgba(255,107,0,0.2),rgba(0,212,255,0.08));padding:20px 24px;text-align:center;border-bottom:1px solid rgba(255,107,0,0.2);position:relative;z-index:1}
+.admin-login-header h2{font-family:'Orbitron',sans-serif;font-size:1.1rem;font-weight:800;color:var(--gold);letter-spacing:2px;text-transform:uppercase}
+.admin-login-body{padding:24px;display:flex;flex-direction:column;gap:14px;position:relative;z-index:1}
+.admin-login-body label{font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;color:rgba(226,232,240,0.5);margin-bottom:-8px;letter-spacing:1px;text-transform:uppercase}
+.admin-input{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);border-radius:12px;color:white;font-size:0.95rem;font-weight:600;padding:14px 16px;font-family:'Inter',sans-serif;outline:none;transition:all 0.3s;backdrop-filter:blur(6px)}
+.admin-input:focus{border-color:rgba(255,107,0,0.6);box-shadow:0 0 20px rgba(255,107,0,0.1),inset 0 0 10px rgba(255,107,0,0.05)}
+.admin-input-error{border-color:rgba(255,45,85,0.7)!important;box-shadow:0 0 20px rgba(255,45,85,0.2)!important}
+.admin-error-msg{font-size:0.78rem;font-weight:700;color:var(--danger);text-align:center;min-height:20px;font-family:'Inter',sans-serif}
+.admin-login-btn{padding:14px;background:linear-gradient(135deg,var(--primary),var(--primary-glow));border:none;border-radius:50px;color:white;font-weight:800;font-size:0.95rem;cursor:pointer;font-family:'Orbitron',sans-serif;letter-spacing:2px;text-transform:uppercase;box-shadow:0 4px 20px rgba(255,107,0,0.4);transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);position:relative;overflow:hidden;-webkit-tap-highlight-color:transparent}
+.admin-login-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.2),transparent);opacity:0;transition:opacity 0.3s}
+.admin-login-btn:hover{transform:scale(1.03);box-shadow:0 8px 30px rgba(255,107,0,0.6)}
+.admin-login-btn:hover::before{opacity:1}
+.admin-cancel-btn{padding:12px;background:transparent;border:1px solid rgba(255,255,255,0.15);border-radius:50px;color:rgba(226,232,240,0.4);font-weight:700;font-size:0.88rem;cursor:pointer;font-family:'Rajdhani',sans-serif;letter-spacing:1px;text-transform:uppercase;transition:all 0.3s}
+.admin-cancel-btn:hover{border-color:rgba(255,45,85,0.5);color:var(--danger);box-shadow:0 0 20px rgba(255,45,85,0.1)}
+
+.admin-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:2000;justify-content:center;align-items:flex-start;padding:20px;overflow-y:auto;backdrop-filter:blur(10px)}
+.admin-overlay.active{display:flex}
+.admin-panel{background:linear-gradient(145deg,#0a0f1e,#050a14);border:2px solid rgba(255,107,0,0.4);border-radius:24px;width:100%;max-width:520px;overflow:hidden;box-shadow:0 0 80px rgba(255,107,0,0.15),0 30px 60px rgba(0,0,0,0.5);margin:auto;position:relative}
+.admin-panel::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(255,107,0,0.08),transparent 70%);pointer-events:none}
+.admin-header{background:linear-gradient(135deg,rgba(255,107,0,0.2),rgba(0,212,255,0.08));padding:18px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,107,0,0.2);gap:12px;position:relative;z-index:1}
+.admin-header h2{font-family:'Orbitron',sans-serif;font-size:1rem;font-weight:800;color:var(--gold);letter-spacing:2px;text-transform:uppercase;flex:1}
+.admin-header-btns{display:flex;gap:10px;flex-shrink:0}
+.admin-logout-btn{background:rgba(255,45,85,0.15);border:1px solid rgba(255,45,85,0.4);color:var(--danger);width:auto;padding:0 14px;height:36px;border-radius:10px;cursor:pointer;font-size:0.75rem;font-weight:800;display:flex;align-items:center;gap:6px;font-family:'Rajdhani',sans-serif;letter-spacing:1px;text-transform:uppercase;transition:all 0.3s;backdrop-filter:blur(6px)}
+.admin-logout-btn:hover{background:rgba(255,45,85,0.3);box-shadow:0 0 20px rgba(255,45,85,0.2);transform:scale(1.05)}
+.admin-close-btn{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:white;width:36px;height:36px;border-radius:10px;cursor:pointer;font-size:1rem;font-weight:700;display:flex;align-items:center;justify-content:center;transition:all 0.3s;backdrop-filter:blur(6px)}
+.admin-close-btn:hover{background:rgba(255,45,85,0.3);border-color:rgba(255,45,85,0.5);transform:rotate(90deg) scale(1.1)}
+.admin-body{padding:20px;position:relative;z-index:1}
+.admin-section-title{font-family:'Orbitron',sans-serif;font-size:0.85rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:2px;margin:18px 0 10px;padding-bottom:6px;border-bottom:1px solid rgba(255,107,0,0.3)}
+.admin-section-title:first-child{margin-top:0}
+.admin-row{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:12px;margin-bottom:6px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);flex-wrap:wrap;gap:8px;transition:all 0.2s}
+.admin-row:hover{background:rgba(255,255,255,0.05);border-color:rgba(255,255,255,0.1);transform:translateX(4px)}
+.admin-row-name{font-family:'Orbitron',sans-serif;font-size:0.85rem;font-weight:700;color:rgba(226,232,240,0.85);letter-spacing:0.5px}
+.admin-row-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.admin-toggle{display:flex;gap:6px}
+.toggle-btn{padding:6px 16px;border-radius:20px;border:none;font-size:0.72rem;font-weight:800;cursor:pointer;font-family:'Rajdhani',sans-serif;transition:all 0.3s;text-transform:uppercase;letter-spacing:0.5px;-webkit-tap-highlight-color:transparent;backdrop-filter:blur(6px)}
+.toggle-btn.ready-btn{background:rgba(0,255,136,0.1);color:var(--success);border:1px solid rgba(0,255,136,0.3)}
+.toggle-btn.ready-btn.active{background:linear-gradient(135deg,var(--success),#00cc6a);color:#030712;box-shadow:0 0 15px rgba(0,255,136,0.4);border-color:transparent}
+.toggle-btn.sold-btn{background:rgba(255,45,85,0.1);color:var(--danger);border:1px solid rgba(255,45,85,0.3)}
+.toggle-btn.sold-btn.active{background:linear-gradient(135deg,var(--danger),#cc2244);color:white;box-shadow:0 0 15px rgba(255,45,85,0.4);border-color:transparent}
+.admin-qty{display:flex;align-items:center;gap:8px}
+.admin-qty input{width:50px;text-align:center;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);border-radius:8px;color:white;font-size:0.85rem;font-weight:700;padding:6px 4px;font-family:'Orbitron',sans-serif;outline:none;transition:all 0.3s}
+.admin-qty input:focus{border-color:rgba(255,107,0,0.5);box-shadow:0 0 15px rgba(255,107,0,0.1)}
+.admin-qty label{font-family:'Rajdhani',sans-serif;font-size:0.75rem;color:rgba(226,232,240,0.4);letter-spacing:1px;text-transform:uppercase}
+.admin-save-btn{width:100%;margin-top:20px;padding:16px;background:linear-gradient(135deg,var(--primary),var(--primary-glow));border:none;border-radius:50px;color:white;font-weight:800;font-size:0.95rem;cursor:pointer;font-family:'Orbitron',sans-serif;letter-spacing:2px;text-transform:uppercase;box-shadow:0 4px 25px rgba(255,107,0,0.4);transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);position:relative;overflow:hidden;-webkit-tap-highlight-color:transparent}
+.admin-save-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.2),transparent);opacity:0;transition:opacity 0.3s}
+.admin-save-btn:hover{transform:scale(1.03);box-shadow:0 10px 40px rgba(255,107,0,0.6)}
+.admin-save-btn:hover::before{opacity:1}
+.admin-save-btn:active{transform:scale(0.98)}
+
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(30px);background:rgba(0,255,136,0.95);color:#030712;padding:12px 28px;border-radius:50px;font-size:0.85rem;font-weight:800;z-index:3000;opacity:0;pointer-events:none;transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1);white-space:nowrap;box-shadow:0 8px 30px rgba(0,255,136,0.3);font-family:'Rajdhani',sans-serif;letter-spacing:1px;text-transform:uppercase;backdrop-filter:blur(6px)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.error{background:rgba(255,45,85,0.95);color:white;box-shadow:0 8px 30px rgba(255,45,85,0.3)}
+
+.admin-tap-hint{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,rgba(255,107,0,0.95),rgba(255,140,0,0.95));color:white;padding:10px 22px;border-radius:50px;font-size:0.78rem;font-weight:800;z-index:1999;opacity:0;transition:all 0.4s;pointer-events:none;white-space:nowrap;box-shadow:0 8px 25px rgba(255,107,0,0.4);font-family:'Rajdhani',sans-serif;letter-spacing:1px;backdrop-filter:blur(6px)}
+.admin-tap-hint.show{opacity:1;transform:translateX(-50%) translateY(-5px)}
+
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(255,107,0,0.3);border-radius:10px}
+::-webkit-scrollbar-thumb:hover{background:rgba(255,107,0,0.5)}
+
+@media(max-width:480px){
+  .fruit-grid{grid-template-columns:repeat(3,1fr);gap:10px}
+  .joki-grid{grid-template-columns:1fr}
+  .hero h1{font-size:2rem;letter-spacing:2px}
+  .fruit-img-wrap{width:64px;height:64px}
+  .fruit-name{font-size:0.7rem}
+  .fruit-price{font-size:1rem}
+  .nav-logo span{font-size:0.9rem}
+  .tabs{gap:10px}
+  .tab-btn{padding:10px 22px;font-size:0.8rem}
+}
+@media(max-width:340px){
+  .fruit-grid{grid-template-columns:repeat(2,1fr)}
+  .nav-logo span{font-size:0.8rem}
+  .hero h1{font-size:1.6rem}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-wrap">
+  <div class="bg-gradient"></div>
+  <div class="stars"></div>
+  <div class="nebula n1"></div>
+  <div class="nebula n2"></div>
+  <div class="nebula n3"></div>
+  <div class="grid-overlay"></div>
+</div>
+
+<div class="admin-login-overlay" id="adminLoginOverlay">
+  <div class="admin-login-box">
+    <div class="admin-login-header"><h2>🔐 ADMIN LOGIN</h2></div>
+    <div class="admin-login-body">
+      <label>Password Admin</label>
+      <input type="password" id="adminPasswordInput" class="admin-input" placeholder="Masukkan password..." maxlength="30" autocomplete="off">
+      <div class="admin-error-msg" id="adminErrorMsg"></div>
+      <button class="admin-login-btn" onclick="submitAdminLogin()"><span>🔓 MASUK</span></button>
+      <button class="admin-cancel-btn" onclick="cancelAdminLogin()">Batal</button>
+    </div>
+  </div>
+</div>
+
+<div class="admin-overlay" id="adminOverlay">
+<div class="admin-panel">
+  <div class="admin-header">
+    <h2>⚙️ ADMIN PANEL — STOK</h2>
+    <div class="admin-header-btns">
+      <button class="admin-logout-btn" onclick="logoutAdmin()"><span>🔒 Logout</span></button>
+      <button class="admin-close-btn" onclick="closeAdmin()">✕</button>
+    </div>
+  </div>
+  <div class="admin-body">
+    <div class="admin-section-title">🍎 Buah</div>
+    <div class="admin-row" data-id="Dragon"><span class="admin-row-name">Dragon</span><div class="admin-row-controls"><div class="admin-toggle"><button class="toggle-btn ready-btn" onclick="setStock('Dragon','ready',this)">READY</button><button class="toggle-btn sold-btn active" onclick="setStock('Dragon','sold',this)">SOLD</button></div><div class="admin-qty"><label>Stok</label><input type="number" min="0" max="99" value="1" id="qty-Dragon"></div></div></div>
+    <div class="admin-row" data-id="Kitsune"><span class="admin-row-name">Kitsune</span><div class="admin-row-controls"><div class="admin-toggle"><button class="toggle-btn ready-btn active" onclick="setStock('Kitsune','ready',this)">READY</button><button class="toggle-btn sold-btn" onclick="setStock('Kitsune','sold',this)">SOLD</button></div><div class="admin-qty"><label>Stok</label><input type="number" min="0" max="99" value="1" id="qty-Kitsune"></div></div></div>
+    <div class="admin-row" data-id="Yeti"><span class="admin-row-name">Yeti</span><div class="admin-row-controls"><div class="admin-toggle"><button class="toggle-btn ready-btn active" onclick="setStock('Yeti','ready',this)">READY</button><button class="toggle-btn sold-btn" onclick="setStock('Yeti','sold',this)">SOLD</button></div><div class="admin-qty"><label>Stok</label><input type="number" min="0" max="99" value="1" id="qty-Yeti"></div></div></div>
+    <div class="admin-row" data-id="Tiger"><span class="admin-row-name">Tiger</span><div class="admin-row-controls"><div class="admin-toggle"><button class="toggle-btn ready-btn active" onclick="setStock('Tiger','ready',this)">READY</button><button class="toggle-btn sold-btn" onclick="setStock('Tiger','sold',this)">SOLD</button></div><div class="admin-qty"><label>Stok</label><input type="number" min="0" max="99" value="1" id="qty-Tiger"></div></div></div>
+    <div class="admin-row" data-id="Lightning"><span class="admin-row-name">Lightning</span><div class="admin-row-controls"><div class="admin-toggle"><button class="toggle-btn ready-btn active" onclick="setStock('Lightning','ready',this)">READY</button><button class="toggle-btn sold-btn" onclick="setStock('Lightning','sold',this)">SOLD</button></div><div class="admin-qty"><label>Stok</label><input type="number" min="0" max="99" value="1" id="qty-Lightning"></div></div></div>
+    <div class="admin-row" data-id="Gas"><span class="admin-row-name">Gas</span><div class="admin-row-controls"><div class="admin-toggle"><button class="toggle-btn ready-btn active" onclick="setStock('Gas','ready',this)">READY</button><button class="toggle-btn sold-btn" onclick="setStock('Gas','sold',this)">SOLD</button></div><div class="admin-qty"><label>Stok</label><input type="number" min="0" max="99" value="4" id="qty-Gas"></div></div></div>
+    <div class="admin-row" data-id="Gravity"><span class="admin-row-name">Gravity</span><div class="admin-row-controls"><div class="admin-toggle"><button class="toggle-btn ready-btn active" onclick="setStock('Gravity','ready',this)">READY</button><button class="toggle-btn sold-btn" onclick="setStock('Gravity','sold',this)">SOLD</button></div><div class="admin-qty"><label>Stok</label><input type="number" min="0" max="99" value="5" id="qty-Gravity"></div></div></div>
+    <div class="admin-row" data-id="Dough"><span class="admin-row-name">Dough</span><div class="admin-row-controls"><div class="admin-toggle"><button class="toggle-btn ready-btn active" onclick="setStock('Dough','ready',this)">READY</button><button class="toggle-btn sold-btn" onclick="setStock('Dough','sold',this)">SOLD</button></div><div class="admin-qty"><label>Stok</label><input type="number" min="0" max="99" value="2" id="qty-Dough"></div></div></div>
+    <div class="admin-row" data-id="T-Rex"><span class="admin-row-name">T-Rex</span><div class="admin-row-controls"><div class="admin-toggle"><button class="toggle-btn ready-btn active" onclick="setStock('T-Rex','ready',this)">READY</button><button class="toggle-btn sold-btn" onclick="setStock('T-Rex','sold',this)">SOLD</button></div><div class="admin-qty"><label>Stok</label><input type="number" min="0" max="99" value="1" id="qty-T-Rex"></div></div></div>
+    <div class="admin-row" data-id="Control"><span class="admin-row-name">Control</span><div class="admin-row-controls"><div class="admin-toggle"><button class="toggle-btn ready-btn" onclick="setStock('Control','ready',this)">READY</button><button class="toggle-btn sold-btn active" onclick="setStock('Control','sold',this)">SOLD</button></div><div class="admin-qty"><label>Stok</label><input type="number" min="0" max="99" value="1" id="qty-Control"></div></div></div>
+    <div class="admin-row" data-id="Spirit"><span class="admin-row-name">Spirit</span><div class="admin-row-controls"><div class="admin-toggle"><button class="toggle-btn ready-btn active" onclick="setStock('Spirit','ready',this)">READY</button><button class="toggle-btn sold-btn" onclick="setStock('Spirit','sold',this)">SOLD</button></div><div class="admin-qty"><label>Stok</label><input type="number" min="0" max="99" value="4" id="qty-Spirit"></div></div></div>
+    <div class="admin-row" data-id="Venom"><span class="admin-row-name">Venom</span><div class="admin-row-controls"><div class="admin-toggle"><button class="toggle-btn ready-btn active" onclick="setStock('Venom','ready',this)">READY</button><button class="toggle-btn sold-btn" onclick="setStock('Venom','sold',this)">SOLD</button></div><div class="admin-qty"><label>Stok</label><input type="number" min="0" max="99" value="4" id="qty-Venom"></div></div></div>
+    <div class="admin-row" data-id="Mammoth"><span class="admin-row-name">Mammoth</span><div class="admin-row-controls"><div class="admin-toggle"><button class="toggle-btn ready-btn active" onclick="setStock('Mammoth','ready',this)">READY</button><button class="toggle-btn sold-btn" onclick="setStock('Mammoth','sold',this)">SOLD</button></div><div class="admin-qty"><label>Stok</label><input type="number" min="0" max="99" value="5" id="qty-Mammoth"></div></div></div>
+    <div class="admin-row" data-id="Buddah"><span class="admin-row-name">Buddah</span><div class="admin-row-controls"><div class="admin-toggle"><button class="toggle-btn ready-btn active" onclick="setStock('Buddah','ready',this)">READY</button><button class="toggle-btn sold-btn" onclick="setStock('Buddah','sold',this)">SOLD</button></div><div class="admin-qty"><label>Stok</label><input type="number" min="0" max="99" value="5" id="qty-Buddah"></div></div></div>
+    <div class="admin-row" data-id="Pain"><span class="admin-row-name">Pain</span><div class="admin-row-controls"><div class="admin-toggle"><button class="toggle-btn ready-btn active" onclick="setStock('Pain','ready',this)">READY</button><button class="toggle-btn sold-btn" onclick="setStock('Pain','sold',this)">SOLD</button></div><div class="admin-qty"><label>Stok</label><input type="number" min="0" max="99" value="6" id="qty-Pain"></div></div></div>
+    <div class="admin-row" data-id="Portal"><span class="admin-row-name">Portal</span><div class="admin-row-controls"><div class="admin-toggle"><button class="toggle-btn ready-btn active" onclick="setStock('Portal','ready',this)">READY</button><button class="toggle-btn sold-btn" onclick="setStock('Portal','sold',this)">SOLD</button></div><div class="admin-qty"><label>Stok</label><input type="number" min="0" max="99" value="5" id="qty-Portal"></div></div></div>
+    <div class="admin-row" data-id="Shadow"><span class="admin-row-name">Shadow</span><div class="admin-row-controls"><div class="admin-toggle"><button class="toggle-btn ready-btn active" onclick="setStock('Shadow','ready',this)">READY</button><button class="toggle-btn sold-btn" onclick="setStock('Shadow','sold',this)">SOLD</button></div><div class="admin-qty"><label>Stok</label><input type="number" min="0" max="99" value="6" id="qty-Shadow"></div></div></div>
+    <div class="admin-row" data-id="Blizzard"><span class="admin-row-name">Blizzard</span><div class="admin-row-controls"><div class="admin-toggle"><button class="toggle-btn ready-btn active" onclick="setStock('Blizzard','ready',this)">READY</button><button class="toggle-btn sold-btn" onclick="setStock('Blizzard','sold',this)">SOLD</button></div><div class="admin-qty"><label>Stok</label><input type="number" min="0" max="99" value="4" id="qty-Blizzard"></div></div></div>
+    <div class="admin-row" data-id="Phoenix"><span class="admin-row-name">Phoenix</span><div class="admin-row-controls"><div class="admin-toggle"><button class="toggle-btn ready-btn active" onclick="setStock('Phoenix','ready',this)">READY</button><button class="toggle-btn sold-btn" onclick="setStock('Phoenix','sold',this)">SOLD</button></div><div class="admin-qty"><label>Stok</label><input type="number" min="0" max="99" value="7" id="qty-Phoenix"></div></div></div>
+    <button class="admin-save-btn" onclick="applyAdmin()"><span>✅ TERAPKAN PERUBAHAN</span></button>
+  </div>
+</div>
+</div>
+
+<div class="toast" id="toast"></div>
+<div class="admin-tap-hint" id="tapHint"></div>
+
+<nav class="navbar">
+  <div class="nav-logo" id="navLogo" title="Ketuk 5x untuk Admin Panel">
+    <img src="https://www.image2url.com/r2/default/images/1776503270052-f3a80f74-6b11-45d9-b34b-6e4ec279d8d0.jpeg" alt="Logo" loading="lazy">
+    <span>BLOX FRUIT SHOP</span>
+  </div>
+  <div class="nav-right">
+    <span class="nav-testimoni">TESTIMONI CEK 👉</span>
+    <div class="chat-dropdown">
+      <button class="nav-wa" id="dropdownToggleBtn" onclick="toggleDropdown(event)"><span>💬 CHAT ADMIN ▼</span></button>
+      <div class="dropdown-menu" id="dropdownMenu">
+        <a href="https://wa.me/6285166867145?text=Halo bang Joo" target="_blank" rel="noopener" class="dropdown-item">
+          <span class="dropdown-icon"><img src="https://www.image2url.com/r2/default/images/1776581456367-be016ac5-cb07-4d2c-9b2f-f86ba4b737db.png" alt="WA" loading="lazy"></span>
+          <span>Chat Admin</span>
+        </a>
+        <a href="https://chat.whatsapp.com/D5Cm4AV3ITy7YnsW2BT2rn" target="_blank" rel="noopener" class="dropdown-item">
+          <span class="dropdown-icon"><img src="https://www.image2url.com/r2/default/images/1776581456367-be016ac5-cb07-4d2c-9b2f-f86ba4b737db.png" alt="WA" loading="lazy"></span>
+          <span>Grub WhatsApp HUHUSTORE</span>
+        </a>
+        <a href="https://whatsapp.com/channel/0029VbCOiLoJUM2b13vbEB2O" target="_blank" rel="noopener" class="dropdown-item">
+          <span class="dropdown-icon"><img src="https://www.image2url.com/r2/default/images/1776581456367-be016ac5-cb07-4d2c-9b2f-f86ba4b737db.png" alt="WA" loading="lazy"></span>
+          <span>TESTIMONI 😋</span>
+        </a>
+        <a href="https://www.instagram.com/huhustore_bloxfruit?igsh=cjY5N3dvanV2aXpk" target="_blank" rel="noopener" class="dropdown-item">
+          <span class="dropdown-icon"><img src="https://www.image2url.com/r2/default/images/1776562878016-a7a99795-5ce4-42d3-9f25-39b72eb40704.jpg" alt="IG" loading="lazy"></span>
+          <span>INSTAGRAM HUHUSTORE</span>
+        </a>
+        <a href="https://www.tiktok.com/@huhustore_?_r=1&_t=ZS-95ekgfDAWJD" target="_blank" rel="noopener" class="dropdown-item">
+          <span class="dropdown-icon"><img src="https://www.image2url.com/r2/default/images/1776563433020-593d5f7f-744d-40f0-a6aa-824d6cbe2f98.png" alt="TikTok" loading="lazy"></span>
+          <span>TIKTOK HUHUSTORE</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="hero">
+  <h1>👑 HUHUSTORE 👑</h1>
+  <p class="hero-sub">BLOX FRUIT SHOP · 100% AMAN · AMANAH · TERPERCAYA</p>
+  <span class="hero-pay">PAYMENT : DANA · GOPAY · QRIS</span>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('buah',this)"><span>BUAH</span></button>
+    <button class="tab-btn" onclick="switchTab('joki',this)"><span>JOKI</span></button>
+  </div>
+</div>
+
+<div class="content-wrap">
+  <div id="tab-buah" class="tab-panel active">
+    <div class="notice-box"><div style="font-size:1.4rem;flex-shrink:0">🛒</div><p>Klik buah untuk langsung order via WhatsApp. Stok bisa berubah sewaktu-waktu!</p></div>
+    <div class="section-title">FRUIT</div>
+    <div class="fruit-grid">
+      <div class="fruit-card sold-card" style="--cf:4.1s" data-fruit-id="Dragon" data-name="Dragon" data-price="230K" data-img="https://www.image2url.com/r2/default/images/1776426442893-ee6c7d4e-6eaa-41ec-a9ac-fb1c4e0cc775.webp">
+        <div class="fruit-img-wrap"><img src="https://www.image2url.com/r2/default/images/1776426442893-ee6c7d4e-6eaa-41ec-a9ac-fb1c4e0cc775.webp" alt="Dragon" loading="lazy"></div>
+        <div class="fruit-name">Dragon</div><div class="fruit-price">210K</div><span class="stock-tag sold">SOLD</span>
+      </div>
+      <div class="fruit-card" style="--cf:3.8s" data-fruit-id="Kitsune" data-name="Kitsune" data-price="40K" data-img="https://www.image2url.com/r2/default/images/1776426910291-54d5df2b-bd19-48c1-807e-815671a55682.webp">
+        <div class="fruit-img-wrap"><img src="https://www.image2url.com/r2/default/images/1776426910291-54d5df2b-bd19-48c1-807e-815671a55682.webp" alt="Kitsune" loading="lazy"></div>
+        <div class="fruit-name">Kitsune</div><div class="fruit-price">40K</div><span class="stock-tag ready">READY(1)</span>
+      </div>
+      <div class="fruit-card" style="--cf:3.8s" data-fruit-id="Yeti" data-name="Yeti" data-price="20K" data-img="https://www.image2url.com/r2/default/images/1776427018345-f4444165-fc53-430d-b428-0709e13470a9.webp">
+        <div class="fruit-img-wrap"><img src="https://www.image2url.com/r2/default/images/1776427018345-f4444165-fc53-430d-b428-0709e13470a9.webp" alt="Yeti" loading="lazy"></div>
+        <div class="fruit-name">Yeti</div><div class="fruit-price">15K</div><span class="stock-tag ready">READY(1)</span>
+      </div>
+      <div class="fruit-card" style="--cf:3.6s" data-fruit-id="Tiger" data-name="Tiger" data-price="15K" data-img="https://www.image2url.com/r2/default/images/1776427102715-35e9932b-0de8-4de2-895f-2dece484ee97.webp">
+        <div class="fruit-img-wrap"><img src="https://www.image2url.com/r2/default/images/1776427102715-35e9932b-0de8-4de2-895f-2dece484ee97.webp" alt="Tiger" loading="lazy"></div>
+        <div class="fruit-name">Tiger</div><div class="fruit-price">15K</div><span class="stock-tag ready">READY(1)</span>
+      </div>
+      <div class="fruit-card" style="--cf:3.6s" data-fruit-id="Lightning" data-name="Lightning" data-price="12K" data-img="https://www.image2url.com/r2/default/images/1776427218800-ce84d3fd-42f0-4060-89fc-a42538b9135f.webp">
+        <div class="fruit-img-wrap"><img src="https://www.image2url.com/r2/default/images/1776427218800-ce84d3fd-42f0-4060-89fc-a42538b9135f.webp" alt="Lightning" loading="lazy"></div>
+        <div class="fruit-name">Lightning</div><div class="fruit-price">10K</div><span class="stock-tag ready">READY(1)</span>
+      </div>
+      <div class="fruit-card" style="--cf:3.9s" data-fruit-id="Gas" data-name="Gas" data-price="11K" data-img="https://www.image2url.com/r2/default/images/1776424715201-a8bf0a4a-60e3-45f2-9e04-699923b6ba90.webp">
+        <div class="fruit-img-wrap"><img src="https://www.image2url.com/r2/default/images/1776424715201-a8bf0a4a-60e3-45f2-9e04-699923b6ba90.webp" alt="Gas" loading="lazy"></div>
+        <div class="fruit-name">Gas</div><div class="fruit-price">11K</div><span class="stock-tag ready">READY(4)</span>
+      </div>
+      <div class="fruit-card" style="--cf:4.2s" data-fruit-id="Gravity" data-name="Gravity" data-price="5K" data-img="https://www.image2url.com/r2/default/images/1776430436596-84302b08-0274-4b68-8a25-773576a10826.webp">
+        <div class="fruit-img-wrap"><img src="https://www.image2url.com/r2/default/images/1776430436596-84302b08-0274-4b68-8a25-773576a10826.webp" alt="Gravity" loading="lazy"></div>
+        <div class="fruit-name">Gravity</div><div class="fruit-price">4K</div><span class="stock-tag ready">READY(5)</span>
+      </div>
+      <div class="fruit-card" style="--cf:3.7s" data-fruit-id="Dough" data-name="Dough" data-price="8K" data-img="https://www.image2url.com/r2/default/images/1776430300056-b7ce5665-fad9-4b0e-9dad-9152a454f55f.webp">
+        <div class="fruit-img-wrap"><img src="https://www.image2url.com/r2/default/images/1776430300056-b7ce5665-fad9-4b0e-9dad-9152a454f55f.webp" alt="Dough" loading="lazy"></div>
+        <div class="fruit-name">Dough</div><div class="fruit-price">7K</div><span class="stock-tag ready">READY(2)</span>
+      </div>
+      <div class="fruit-card" style="--cf:4.5s" data-fruit-id="T-Rex" data-name="T-Rex" data-price="7K" data-img="https://www.image2url.com/r2/default/images/1776431394232-8e2d7fc7-81d9-4fa6-b102-352aa578e910.png">
+        <div class="fruit-img-wrap"><img src="https://www.image2url.com/r2/default/images/1776431394232-8e2d7fc7-81d9-4fa6-b102-352aa578e910.png" alt="T-Rex" loading="lazy"></div>
+        <div class="fruit-name">T-Rex</div><div class="fruit-price">7K</div><span class="stock-tag ready">READY(1)</span>
+      </div>
+      <div class="fruit-card sold-card" style="--cf:4.0s" data-fruit-id="Control" data-name="Control" data-price="15K" data-img="https://www.image2url.com/r2/default/images/1776426554790-9432ac31-5d70-477d-acc0-d2a97f932042.webp">
+        <div class="fruit-img-wrap"><img src="https://www.image2url.com/r2/default/images/1776426554790-9432ac31-5d70-477d-acc0-d2a97f932042.webp" alt="Control" loading="lazy"></div>
+        <div class="fruit-name">Control</div><div class="fruit-price">15K</div><span class="stock-tag sold">SOLD</span>
+      </div>
+      <div class="fruit-card" style="--cf:3.5s" data-fruit-id="Spirit" data-name="Spirit" data-price="5K" data-img="https://www.image2url.com/r2/default/images/1776430981723-080f0aa0-a2e6-40ef-b61c-7cb31544f398.webp">
+        <div class="fruit-img-wrap"><img src="https://www.image2url.com/r2/default/images/1776430981723-080f0aa0-a2e6-40ef-b61c-7cb31544f398.webp" alt="Spirit" loading="lazy"></div>
+        <div class="fruit-name">Spirit</div><div class="fruit-price">4K</div><span class="stock-tag ready">READY(4)</span>
+      </div>
+      <div class="fruit-card" style="--cf:4.3s" data-fruit-id="Venom" data-name="Venom" data-price="6K" data-img="https://www.image2url.com/r2/default/images/1776431099376-cab8090d-3637-4489-9022-3c42ba209460.webp">
+        <div class="fruit-img-wrap"><img src="https://www.image2url.com/r2/default/images/1776431099376-cab8090d-3637-4489-9022-3c42ba209460.webp" alt="Venom" loading="lazy"></div>
+        <div class="fruit-name">Venom</div><div class="fruit-price">4K</div><span class="stock-tag ready">READY(4)</span>
+      </div>
+      <div class="fruit-card" style="--cf:3.8s" data-fruit-id="Mammoth" data-name="Mammoth" data-price="5K" data-img="https://www.image2url.com/r2/default/images/1776430887895-a69b92c0-ff14-4637-98f6-a0060252f15f.webp">
+        <div class="fruit-img-wrap"><img src="https://www.image2url.com/r2/default/images/1776430887895-a69b92c0-ff14-4637-98f6-a0060252f15f.webp" alt="Mammoth" loading="lazy"></div>
+        <div class="fruit-name">Mammoth</div><div class="fruit-price">4K</div><span class="stock-tag ready">READY(5)</span>
+      </div>
+      <div class="fruit-card" style="--cf:4.6s" data-fruit-id="Buddah" data-name="Buddah" data-price="5K" data-img="https://www.image2url.com/r2/default/images/1776431601963-017c7e06-160a-4d8a-92bc-db1e56f9ea8d.webp">
+        <div class="fruit-img-wrap"><img src="https://www.image2url.com/r2/default/images/1776431601963-017c7e06-160a-4d8a-92bc-db1e56f9ea8d.webp" alt="Buddah" loading="lazy"></div>
+        <div class="fruit-name">Buddah</div><div class="fruit-price">4K</div><span class="stock-tag ready">READY(5)</span>
+      </div>
+      <div class="fruit-card" style="--cf:3.9s" data-fruit-id="Pain" data-name="Pain" data-price="4K" data-img="https://www.image2url.com/r2/default/images/1776430524752-f3406a59-82fd-48ea-a147-bb7adc47d197.webp">
+        <div class="fruit-img-wrap"><img src="https://www.image2url.com/r2/default/images/1776430524752-f3406a59-82fd-48ea-a147-bb7adc47d197.webp" alt="Pain" loading="lazy"></div>
+        <div class="fruit-name">Pain</div><div class="fruit-price">2,5K</div><span class="stock-tag ready">READY(6)</span>
+      </div>
+      <div class="fruit-card" style="--cf:4.1s" data-fruit-id="Portal" data-name="Portal" data-price="5K" data-img="https://www.image2url.com/r2/default/images/1776431516681-7738a74e-55d1-4440-b058-64caa4d6f26f.webp">
+        <div class="fruit-img-wrap"><img src="https://www.image2url.com/r2/default/images/1776431516681-7738a74e-55d1-4440-b058-64caa4d6f26f.webp" alt="Portal" loading="lazy"></div>
+        <div class="fruit-name">Portal</div><div class="fruit-price">4K</div><span class="stock-tag ready">READY(5)</span>
+      </div>
+      <div class="fruit-card" style="--cf:3.7s" data-fruit-id="Shadow" data-name="Shadow" data-price="3K" data-img="https://www.image2url.com/r2/default/images/1776432004548-d46d389a-22ca-4311-b15f-54fba92f4745.webp">
+        <div class="fruit-img-wrap"><img src="https://www.image2url.com/r2/default/images/1776432004548-d46d389a-22ca-4311-b15f-54fba92f4745.webp" alt="Shadow" loading="lazy"></div>
+        <div class="fruit-name">Shadow</div><div class="fruit-price">2,2K</div><span class="stock-tag ready">READY(6)</span>
+      </div>
+      <div class="fruit-card" style="--cf:4.4s" data-fruit-id="Blizzard" data-name="Blizzard" data-price="2K" data-img="https://www.image2url.com/r2/default/images/1776431797389-ff34c1fb-4282-4b67-b5cc-66335cd6b9f6.webp">
+        <div class="fruit-img-wrap"><img src="https://www.image2url.com/r2/default/images/1776431797389-ff34c1fb-4282-4b67-b5cc-66335cd6b9f6.webp" alt="Blizzard" loading="lazy"></div>
+        <div class="fruit-name">Blizzard</div><div class="fruit-price">1K</div><span class="stock-tag ready">READY(4)</span>
+      </div>
+      <div class="fruit-card" style="--cf:3.6s" data-fruit-id="Phoenix" data-name="Phoenix" data-price="2K" data-img="https://www.image2url.com/r2/default/images/1776431905497-ce4af692-2c37-4b1e-9d54-5c4441a5a3a9.webp">
+        <div class="fruit-img-wrap"><img src="https://www.image2url.com/r2/default/images/1776431905497-ce4af692-2c37-4b1e-9d54-5c4441a5a3a9.webp" alt="Phoenix" loading="lazy"></div>
+        <div class="fruit-name">Phoenix</div><div class="fruit-price">1K</div><span class="stock-tag ready">READY(7)</span>
+      </div>
+    </div>
+    <div class="notice-box"><div style="font-size:1.4rem;flex-shrink:0">⚠️</div><p><strong>TRADE SEA SECOND</strong> — Cepat order sebelum kehabisan!</p></div>
+  </div>
+
+  <div id="tab-joki" class="tab-panel">
+    <div class="notice-box"><div style="font-size:1.4rem;flex-shrink:0">✅</div><p>Joki Online 24 JAM. Klik tombol order untuk langsung chat ya!</p></div>
+    <div class="section-title">Level & Belly</div>
+    <div class="joki-grid">
+      <div class="joki-card">
+        <div class="joki-card-header"><h3>LEVEL</h3></div>
+        <div class="joki-card-body">
+          <div class="joki-item"><span class="name">SEA 1 - 100 Level</span><span class="price">4K</span></div>
+          <div class="joki-item"><span class="name">SEA 2 - 100 Level</span><span class="price">5K</span></div>
+          <div class="joki-item"><span class="name">SEA 3 - 100 Level</span><span class="price">6K</span></div>
+          <button class="order-btn" onclick="orderJoki('Joki Level')"><span>💬 Order Joki Level</span></button>
+        </div>
+      </div>
+      <div class="joki-card">
+        <div class="joki-card-header"><h3>1M BELLY</h3></div>
+        <div class="joki-card-body">
+          <div class="joki-item"><span class="name">SEA 1 - 1M Belly</span><span class="price">6K</span></div>
+          <div class="joki-item"><span class="name">SEA 2 - 1M Belly</span><span class="price">5K</span></div>
+          <div class="joki-item"><span class="name">SEA 3 - 1M Belly</span><span class="price">4K</span></div>
+          <button class="order-btn" onclick="orderJoki('Joki Belly')"><span>💬 Order Joki Belly</span></button>
+        </div>
+      </div>
+    </div>
+    <div class="section-title">Mastery & Raid</div>
+    <div class="joki-grid">
+      <div class="joki-card">
+        <div class="joki-card-header"><h3>MASTERY</h3></div>
+        <div class="joki-card-body">
+          <div class="joki-item"><span class="name">Melee 100 MS</span><span class="price">4K</span></div>
+          <div class="joki-item"><span class="name">Sword 100 MS</span><span class="price">4K</span></div>
+          <div class="joki-item"><span class="name">Gun 100 MS</span><span class="price">8K</span></div>
+          <div class="joki-item"><span class="name">Fruit 100 MS</span><span class="price">6K</span></div>
+          <button class="order-btn" onclick="orderJoki('Joki Mastery')"><span>💬 Order Joki Mastery</span></button>
+        </div>
+      </div>
+      <div class="joki-card">
+        <div class="joki-card-header"><h3>RAID (Buah Kamu)</h3></div>
+        <div class="joki-card-body">
+          <div class="joki-item"><span class="name">1x Normal</span><span class="price">1K</span></div>
+          <div class="joki-item"><span class="name">1x Advance</span><span class="price">2K</span></div>
+          <div class="joki-item"><span class="name">1x Law</span><span class="price">1K</span></div>
+          <button class="order-btn" onclick="orderJoki('Joki Raid (Buah Kamu)')"><span>💬 Order Raid</span></button>
+        </div>
+      </div>
+      <div class="joki-card">
+        <div class="joki-card-header"><h3>RAID (Buah Penjoki)</h3></div>
+        <div class="joki-card-body">
+          <div class="joki-item"><span class="name">1x Normal</span><span class="price">2K</span></div>
+          <div class="joki-item"><span class="name">1x Advance</span><span class="price">3K</span></div>
+          <div class="joki-item"><span class="name">1x Law</span><span class="price">2K</span></div>
+          <button class="order-btn" onclick="orderJoki('Joki Raid (Buah Penjoki)')"><span>💬 Order Raid</span></button>
+        </div>
+      </div>
+    </div>
+    <div class="section-title">Sword</div>
+    <div class="joki-grid">
+      <div class="joki-card">
+        <div class="joki-card-header"><h3>SWORD</h3></div>
+        <div class="joki-card-body">
+          <div class="joki-item"><span class="name">Gravity Cane</span><span class="price">5K</span></div>
+          <div class="joki-item"><span class="name">Spike Trident</span><span class="price">10K</span></div>
+          <div class="joki-item"><span class="name">Shark Anchor</span><span class="price">10K</span></div>
+          <div class="joki-note">⚠️ Monster Magnet Tidak Ada - 20K</div>
+          <div class="joki-item"><span class="name">Yama</span><span class="price">15K</span></div>
+          <div class="joki-item"><span class="name">Thusita</span><span class="price">15K</span></div>
+          <div class="joki-item"><span class="name">CDK</span><span class="price">25K</span></div>
+          <div class="joki-note">⚠️ Yama & Thusita Wajib Ada</div>
+          <button class="order-btn" onclick="orderJoki('Joki Sword')"><span>💬 Order Sword</span></button>
+        </div>
+      </div>
+      <div class="joki-card">
+        <div class="joki-card-header"><h3>PAKET SWORD</h3></div>
+        <div class="joki-card-body">
+          <div class="joki-item"><span class="name">Paket CDK</span><span class="price">45K</span></div>
+          <div class="joki-item"><span class="name">Legend Sword 1</span><span class="price">8K</span></div>
+          <div class="joki-note">⚠️ Wajib Belly Cukup</div>
+          <div class="joki-item"><span class="name">3 Pedang Legend</span><span class="price">20K</span></div>
+          <div class="joki-item"><span class="name">Paket TTK</span><span class="price">30K</span></div>
+          <button class="order-btn" onclick="orderJoki('Paket Sword')"><span>💬 Order Paket Sword</span></button>
+        </div>
+      </div>
+      <div class="joki-card">
+        <div class="joki-card-header"><h3>GUN</h3></div>
+        <div class="joki-card-body">
+          <div class="joki-item"><span class="name">Soul Guitar</span><span class="price">10K</span></div>
+          <div class="joki-note">⚠️ Dark Frag Wajib Ada</div>
+          <button class="order-btn" onclick="orderJoki('Joki Gun - Soul Guitar')"><span>💬 Order Gun</span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal" onclick="closeModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h3 id="modal-title">Nama Buah</h3>
+      <button class="modal-close" onclick="closeModalBtn()" aria-label="Tutup">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-img"><img id="modal-img" src="" alt="" loading="lazy"></div>
+      <div class="modal-price" id="modal-price">0K</div>
+      <div class="modal-stock" id="modal-stock"></div>
+      <button class="modal-wa-btn" onclick="orderFruit()"><span>💬 Order via WhatsApp</span></button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBXbFTZTK3rfdDjAK-xWtMhCR4JpZWTHVo",
+  authDomain: "huhustore-01.firebaseapp.com",
+  databaseURL: "https://huhustore-01-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "huhustore-01",
+  storageBucket: "huhustore-01.firebasestorage.app",
+  messagingSenderId: "1092232393932",
+  appId: "1:1092232393932:web:0deb9afb34e7002d3c7e69"
+};
+const firebaseApp = initializeApp(firebaseConfig);
+const db = getDatabase(firebaseApp);
+
+const WA_NUMBER = '6285166867145';
+const ADMIN_PASSWORD_HASH = '906efff2bd2953be3e60d1640ccfbc47fa41dc8a10397d5876a12d000ae504c6';
+
+let currentFruit = {};
+let adminLoggedIn = false;
+const stockState = {};
+
+function initStockStateFromDOM() {
+  document.querySelectorAll('#adminOverlay .admin-row').forEach(row => {
+    const id = row.dataset.id;
+    if (!id) return;
+    const activeBtn = row.querySelector('.toggle-btn.active');
+    if (activeBtn) {
+      stockState[id] = activeBtn.classList.contains('ready-btn') ? 'ready' : 'sold';
+    }
+  });
+}
+initStockStateFromDOM();
+
+function applyStockData(data) {
+  if (!data) return;
+  Object.keys(data).forEach(id => {
+    const { status, qty } = data[id];
+    stockState[id] = status;
+    const card = document.querySelector(`.fruit-card[data-fruit-id="${id}"]`);
+    if (!card) return;
+    const tag = card.querySelector('.stock-tag');
+    if (status === 'sold') {
+      card.classList.add('sold-card');
+      tag.className = 'stock-tag sold';
+      tag.textContent = 'SOLD';
+    } else {
+      card.classList.remove('sold-card');
+      tag.className = 'stock-tag ready';
+      tag.textContent = qty > 0 ? `READY(${qty})` : 'READY';
+    }
+    const qtyInput = document.getElementById('qty-' + id);
+    if (qtyInput && qty !== undefined) qtyInput.value = qty;
+  });
+  bindFruitCards();
+  syncAdminPanel();
+}
+
+onValue(ref(db, 'stok'), (snapshot) => {
+  const data = snapshot.val();
+  if (data) applyStockData(data);
+});
+
+const floatObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('float-anim');
+    else e.target.classList.remove('float-anim');
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fruit-card:not(.sold-card), .joki-card').forEach(c => floatObs.observe(c));
+
+function bindFruitCards() {
+  document.querySelectorAll('.fruit-card').forEach(c => {
+    c.onclick = null;
+  });
+  document.querySelectorAll('.fruit-card:not(.sold-card)').forEach(c => {
+    c.onclick = function(e) {
+      addRipple(e, c);
+      openModal(c.dataset.name, c.dataset.price, 'ready', c.dataset.img);
+    };
+  });
+  document.querySelectorAll('.fruit-card').forEach(c => {
+    if (c.classList.contains('sold-card')) {
+      c.classList.remove('float-anim');
+      floatObs.unobserve(c);
+    } else {
+      floatObs.observe(c);
+    }
+  });
+}
+bindFruitCards();
+
+function switchTab(tab, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  if (btn) btn.classList.add('active');
+}
+
+function addRipple(e, el) {
+  const r = document.createElement('span');
+  r.className = 'ripple';
+  const rect = el.getBoundingClientRect();
+  const sz = Math.max(rect.width, rect.height) * 2;
+  const cx = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left - sz / 2;
+  const cy = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top - sz / 2;
+  r.style.cssText = `width:${sz}px;height:${sz}px;left:${cx}px;top:${cy}px`;
+  el.appendChild(r);
+  setTimeout(() => r.remove(), 600);
+}
+
+function openModal(name, price, stock, img) {
+  currentFruit = { name, price, stock, img };
+  document.getElementById('modal-title').textContent = name;
+  document.getElementById('modal-price').textContent = price;
+  const i = document.getElementById('modal-img');
+  i.src = img; i.alt = name;
+  const s = document.getElementById('modal-stock');
+  s.innerHTML = '<span class="stock-tag ready">✅ READY — Bisa Order Sekarang!</span>';
+  document.getElementById('modal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeModalBtn() {
+  document.getElementById('modal').classList.remove('active');
+  document.body.style.overflow = '';
+}
+function closeModal(e) {
+  if (e.target.id === 'modal') closeModalBtn();
+}
+function orderFruit() {
+  const msg = `Halo bang Joo, saya mau beli fruit ${currentFruit.name} dengan harga ${currentFruit.price}`;
+  window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
+  closeModalBtn();
+}
+
+function orderJoki(type) {
+  const msg = `Halo bang Joo, saya mau ${type}`;
+  window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
+}
+
+function toggleDropdown(e) {
+  if (e) e.stopPropagation();
+  document.getElementById('dropdownMenu').classList.toggle('active');
+}
+document.addEventListener('click', function(e) {
+  const d = document.querySelector('.chat-dropdown');
+  if (d && !d.contains(e.target)) {
+    document.getElementById('dropdownMenu').classList.remove('active');
+  }
+});
+
+let toastTimer;
+function showToast(msg, isError = false) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast' + (isError ? ' error' : '');
+  t.offsetHeight;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    closeModalBtn();
+    closeAdmin();
+    cancelAdminLogin();
+  }
+  if (e.key === 'Enter' && document.getElementById('adminLoginOverlay').classList.contains('active')) {
+    submitAdminLogin();
+  }
+});
+
+let tapCount = 0, tapTimer = null;
+document.getElementById('navLogo').addEventListener('click', function() {
+  tapCount++;
+  clearTimeout(tapTimer);
+  const hint = document.getElementById('tapHint');
+  const left = 5 - tapCount;
+  if (left > 0) {
+    hint.textContent = `🔒 ${left} ketukan lagi untuk Admin Panel`;
+    hint.classList.add('show');
+    tapTimer = setTimeout(() => { tapCount = 0; hint.classList.remove('show'); }, 2500);
+  }
+  if (tapCount >= 5) {
+    tapCount = 0;
+    clearTimeout(tapTimer);
+    hint.classList.remove('show');
+    if (adminLoggedIn) {
+      openAdminPanel();
+    } else {
+      openAdminLogin();
+    }
+  }
+});
+
+function openAdminLogin() {
+  document.getElementById('adminPasswordInput').value = '';
+  document.getElementById('adminErrorMsg').textContent = '';
+  document.getElementById('adminPasswordInput').classList.remove('admin-input-error');
+  document.getElementById('adminLoginOverlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+  setTimeout(() => document.getElementById('adminPasswordInput').focus(), 300);
+}
+function cancelAdminLogin() {
+  document.getElementById('adminLoginOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+async function submitAdminLogin() {
+  const val = document.getElementById('adminPasswordInput').value;
+  const input = document.getElementById('adminPasswordInput');
+  const err = document.getElementById('adminErrorMsg');
+  const msgBuffer = new TextEncoder().encode(val);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+  const hashHex = Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2,'0')).join('');
+  if (hashHex === ADMIN_PASSWORD_HASH) {
+    adminLoggedIn = true;
+    cancelAdminLogin();
+    openAdminPanel();
+  } else {
+    input.classList.add('admin-input-error');
+    err.textContent = '❌ Password salah, coba lagi!';
+    input.value = '';
+    setTimeout(() => {
+      input.classList.remove('admin-input-error');
+      err.textContent = '';
+    }, 2000);
+  }
+}
+function logoutAdmin() {
+  adminLoggedIn = false;
+  closeAdmin();
+  showToast('🔒 Berhasil logout dari Admin Panel');
+}
+
+function openAdminPanel() {
+  syncAdminPanel();
+  document.getElementById('adminOverlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeAdmin() {
+  document.getElementById('adminOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function syncAdminPanel() {
+  Object.keys(stockState).forEach(id => {
+    const row = document.querySelector(`#adminOverlay .admin-row[data-id="${id}"]`);
+    if (!row) return;
+    const readyBtn = row.querySelector('.ready-btn');
+    const soldBtn = row.querySelector('.sold-btn');
+    if (!readyBtn || !soldBtn) return;
+    if (stockState[id] === 'ready') {
+      readyBtn.classList.add('active');
+      soldBtn.classList.remove('active');
+    } else {
+      readyBtn.classList.remove('active');
+      soldBtn.classList.add('active');
+    }
+  });
+}
+
+function setStock(id, status, btn) {
+  stockState[id] = status;
+  const row = btn.closest('.admin-toggle');
+  row.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function applyAdmin() {
+  const saveData = {};
+  let changed = 0;
+  document.querySelectorAll('.fruit-card').forEach(card => {
+    const id = card.dataset.fruitId;
+    if (!id || stockState[id] === undefined) return;
+    const status = stockState[id];
+    const qtyInput = document.getElementById('qty-' + id);
+    const qty = qtyInput ? (parseInt(qtyInput.value) || 0) : 0;
+    const wasSold = card.classList.contains('sold-card');
+    const willBeSold = status === 'sold';
+    const tag = card.querySelector('.stock-tag');
+    if (willBeSold) {
+      card.classList.add('sold-card');
+      tag.className = 'stock-tag sold';
+      tag.textContent = 'SOLD';
+    } else {
+      card.classList.remove('sold-card');
+      tag.className = 'stock-tag ready';
+      tag.textContent = qty > 0 ? `READY(${qty})` : 'READY';
+    }
+    if (wasSold !== willBeSold) changed++;
+    saveData[id] = { status, qty };
+  });
+  bindFruitCards();
+  set(ref(db, 'stok'), saveData)
+    .then(() => {
+      closeAdmin();
+      showToast(`✅ Stok disimpan! ${changed} perubahan diterapkan`);
+    })
+    .catch(() => {
+      closeAdmin();
+      showToast('⚠️ Gagal simpan ke server, cek koneksi!', true);
+    });
+}
+
+window.switchTab        = switchTab;
+window.orderJoki        = orderJoki;
+window.orderFruit       = orderFruit;
+window.closeModal       = closeModal;
+window.closeModalBtn    = closeModalBtn;
+window.toggleDropdown   = toggleDropdown;
+window.submitAdminLogin = submitAdminLogin;
+window.cancelAdminLogin = cancelAdminLogin;
+window.logoutAdmin      = logoutAdmin;
+window.closeAdmin       = closeAdmin;
+window.setStock         = setStock;
+window.applyAdmin       = applyAdmin;
+</script>
+</body>
+</html>
